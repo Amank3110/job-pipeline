@@ -29,10 +29,11 @@ from modules.helpers import *
 from modules.clickers_and_finders import *
 from modules.validator import validate_config
 
-if use_AI:
-    from modules.ai.openaiConnections import ai_create_openai_client, ai_extract_skills, ai_answer_question, ai_close_openai_client
-    from modules.ai.deepseekConnections import deepseek_create_client, deepseek_extract_skills, deepseek_answer_question
-    from modules.ai.geminiConnections import gemini_create_client, gemini_extract_skills, gemini_answer_question
+# AI DISABLED - Comment out the following if block to enable AI
+# if use_AI:
+#     from modules.ai.openaiConnections import ai_create_openai_client, ai_extract_skills, ai_answer_question, ai_close_openai_client
+#     from modules.ai.deepseekConnections import deepseek_create_client, deepseek_extract_skills, deepseek_answer_question
+#     from modules.ai.geminiConnections import gemini_create_client, gemini_extract_skills, gemini_answer_question
 
 from typing import Literal
 
@@ -622,31 +623,32 @@ def answer_questions(modal: WebElement, questions_list: set, work_location: str,
                 elif 'zip' in label or 'postal' in label or 'code' in label: answer = zipcode
                 elif 'country' in label: answer = country
                 else: answer = answer_common_questions(label,answer)
-                ##> ------ Yang Li : MARKYangL - Feature ------
-                if answer == "":
-                    if use_AI and aiClient:
-                        try:
-                            if ai_provider.lower() == "openai":
-                                answer = ai_answer_question(aiClient, label_org, question_type="text", job_description=job_description, user_information_all=user_information_all)
-                            elif ai_provider.lower() == "deepseek":
-                                answer = deepseek_answer_question(aiClient, label_org, options=None, question_type="text", job_description=job_description, about_company=None, user_information_all=user_information_all)
-                            elif ai_provider.lower() == "gemini":
-                                answer = gemini_answer_question(aiClient, label_org, options=None, question_type="text", job_description=job_description, about_company=None, user_information_all=user_information_all)
-                            else:
-                                randomly_answered_questions.add((label_org, "text"))
-                                answer = years_of_experience
-                            if answer and isinstance(answer, str) and len(answer) > 0:
-                                print_lg(f'AI Answered received for question "{label_org}" \nhere is answer: "{answer}"')
-                            else:
-                                randomly_answered_questions.add((label_org, "text"))
-                                answer = years_of_experience
-                        except Exception as e:
-                            print_lg("Failed to get AI answer!", e)
-                            randomly_answered_questions.add((label_org, "text"))
-                            answer = years_of_experience
-                    else:
-                        randomly_answered_questions.add((label_org, "text"))
-                        answer = years_of_experience
+                ##> ------ Yang Li : MARKYangL - Feature (DISABLED) ------
+                # AI TEXT QUESTION ANSWERING DISABLED
+                # if answer == "":
+                #     if use_AI and aiClient:
+                #         try:
+                #             if ai_provider.lower() == "openai":
+                #                 answer = ai_answer_question(aiClient, label_org, question_type="text", job_description=job_description, user_information_all=user_information_all)
+                #             elif ai_provider.lower() == "deepseek":
+                #                 answer = deepseek_answer_question(aiClient, label_org, options=None, question_type="text", job_description=job_description, about_company=None, user_information_all=user_information_all)
+                #             elif ai_provider.lower() == "gemini":
+                #                 answer = gemini_answer_question(aiClient, label_org, options=None, question_type="text", job_description=job_description, about_company=None, user_information_all=user_information_all)
+                #             else:
+                #                 randomly_answered_questions.add((label_org, "text"))
+                #                 answer = years_of_experience
+                #             if answer and isinstance(answer, str) and len(answer) > 0:
+                #                 print_lg(f'AI Answered received for question "{label_org}" \nhere is answer: "{answer}"')
+                #             else:
+                #                 randomly_answered_questions.add((label_org, "text"))
+                #                 answer = years_of_experience
+                #         except Exception as e:
+                #             print_lg("Failed to get AI answer!", e)
+                #             randomly_answered_questions.add((label_org, "text"))
+                #             answer = years_of_experience
+                #     else:
+                #         randomly_answered_questions.add((label_org, "text"))
+                #         answer = years_of_experience
                 ##<
                 text.clear()
                 text.send_keys(answer)
@@ -669,29 +671,32 @@ def answer_questions(modal: WebElement, questions_list: set, work_location: str,
                 if 'summary' in label: answer = linkedin_summary
                 elif 'cover' in label: answer = cover_letter
                 if answer == "":
-                ##> ------ Yang Li : MARKYangL - Feature ------
-                    if use_AI and aiClient:
-                        try:
-                            if ai_provider.lower() == "openai":
-                                answer = ai_answer_question(aiClient, label_org, question_type="textarea", job_description=job_description, user_information_all=user_information_all)
-                            elif ai_provider.lower() == "deepseek":
-                                answer = deepseek_answer_question(aiClient, label_org, options=None, question_type="textarea", job_description=job_description, about_company=None, user_information_all=user_information_all)
-                            elif ai_provider.lower() == "gemini":
-                                answer = gemini_answer_question(aiClient, label_org, options=None, question_type="textarea", job_description=job_description, about_company=None, user_information_all=user_information_all)
-                            else:
-                                randomly_answered_questions.add((label_org, "textarea"))
-                                answer = ""
-                            if answer and isinstance(answer, str) and len(answer) > 0:
-                                print_lg(f'AI Answered received for question "{label_org}" \nhere is answer: "{answer}"')
-                            else:
-                                randomly_answered_questions.add((label_org, "textarea"))
-                                answer = ""
-                        except Exception as e:
-                            print_lg("Failed to get AI answer!", e)
-                            randomly_answered_questions.add((label_org, "textarea"))
-                            answer = ""
-                    else:
-                        randomly_answered_questions.add((label_org, "textarea"))
+                ##> ------ Yang Li : MARKYangL - Feature (DISABLED) ------
+                    # AI TEXTAREA QUESTION ANSWERING DISABLED
+                    # if use_AI and aiClient:
+                    #     try:
+                    #         if ai_provider.lower() == "openai":
+                    #             answer = ai_answer_question(aiClient, label_org, question_type="textarea", job_description=job_description, user_information_all=user_information_all)
+                    #         elif ai_provider.lower() == "deepseek":
+                    #             answer = deepseek_answer_question(aiClient, label_org, options=None, question_type="textarea", job_description=job_description, about_company=None, user_information_all=user_information_all)
+                    #         elif ai_provider.lower() == "gemini":
+                    #             answer = gemini_answer_question(aiClient, label_org, options=None, question_type="textarea", job_description=job_description, about_company=None, user_information_all=user_information_all)
+                    #         else:
+                    #             randomly_answered_questions.add((label_org, "textarea"))
+                    #             answer = ""
+                    #         if answer and isinstance(answer, str) and len(answer) > 0:
+                    #             print_lg(f'AI Answered received for question "{label_org}" \nhere is answer: "{answer}"')
+                    #         else:
+                    #             randomly_answered_questions.add((label_org, "textarea"))
+                    #             answer = ""
+                    #     except Exception as e:
+                    #         print_lg("Failed to get AI answer!", e)
+                    #         randomly_answered_questions.add((label_org, "textarea"))
+                    #         answer = ""
+                    # else:
+                    #     randomly_answered_questions.add((label_org, "textarea"))
+                    ##<
+                    pass
             text_area.clear()
             text_area.send_keys(answer)
             if do_actions:
@@ -966,22 +971,23 @@ def apply_to_jobs(search_terms: list[str]) -> None:
                         continue
 
                     
-                    if use_AI and description != "Unknown":
-                        ##> ------ Yang Li : MARKYangL - Feature ------
-                        try:
-                            if ai_provider.lower() == "openai":
-                                skills = ai_extract_skills(aiClient, description)
-                            elif ai_provider.lower() == "deepseek":
-                                skills = deepseek_extract_skills(aiClient, description)
-                            elif ai_provider.lower() == "gemini":
-                                skills = gemini_extract_skills(aiClient, description)
-                            else:
-                                skills = "In Development"
-                            print_lg(f"Extracted skills using {ai_provider} AI")
-                        except Exception as e:
-                            print_lg("Failed to extract skills:", e)
-                            skills = "Error extracting skills"
-                        ##<
+                    # AI SKILL EXTRACTION DISABLED
+                    # if use_AI and description != "Unknown":
+                    #     ##> ------ Yang Li : MARKYangL - Feature ------
+                    #     try:
+                    #         if ai_provider.lower() == "openai":
+                    #             skills = ai_extract_skills(aiClient, description)
+                    #         elif ai_provider.lower() == "deepseek":
+                    #             skills = deepseek_extract_skills(aiClient, description)
+                    #         elif ai_provider.lower() == "gemini":
+                    #             skills = gemini_extract_skills(aiClient, description)
+                    #         else:
+                    #             skills = "In Development"
+                    #         print_lg(f"Extracted skills using {ai_provider} AI")
+                    #     except Exception as e:
+                    #         print_lg("Failed to extract skills:", e)
+                    #         skills = "Error extracting skills"
+                    #     ##<
 
                     uploaded = False
                     # Case 1: Easy Apply Button
@@ -1146,22 +1152,24 @@ def main() -> None:
         #         chatGPT_tab = driver.current_window_handle
         #     except Exception as e:
         #         print_lg("Opening OpenAI chatGPT tab failed!")
-        if use_AI:
-            if ai_provider == "openai":
-                aiClient = ai_create_openai_client()
-            ##> ------ Yang Li : MARKYangL - Feature ------
-            # Create DeepSeek client
-            elif ai_provider == "deepseek":
-                aiClient = deepseek_create_client()
-            elif ai_provider == "gemini":
-                aiClient = gemini_create_client()
-            ##<
-
-            try:
-                about_company_for_ai = " ".join([word for word in (first_name+" "+last_name).split() if len(word) > 3])
-                print_lg(f"Extracted about company info for AI: '{about_company_for_ai}'")
-            except Exception as e:
-                print_lg("Failed to extract about company info!", e)
+        
+        # AI INITIALIZATION DISABLED - Only using personal resume
+        # if use_AI:
+        #     if ai_provider == "openai":
+        #         aiClient = ai_create_openai_client()
+        #     ##> ------ Yang Li : MARKYangL - Feature ------
+        #     # Create DeepSeek client
+        #     elif ai_provider == "deepseek":
+        #         aiClient = deepseek_create_client()
+        #     elif ai_provider == "gemini":
+        #         aiClient = gemini_create_client()
+        #     ##<
+        #
+        #     try:
+        #         about_company_for_ai = " ".join([word for word in (first_name+" "+last_name).split() if len(word) > 3])
+        #         print_lg(f"Extracted about company info for AI: '{about_company_for_ai}'")
+        #     except Exception as e:
+        #         print_lg("Failed to extract about company info!", e)
         
         # Start applying to jobs
         driver.switch_to.window(linkedIn_tab)
@@ -1224,19 +1232,20 @@ def main() -> None:
             msg = "NOTE: IF YOU HAVE MORE THAN 10 TABS OPENED, PLEASE CLOSE OR BOOKMARK THEM!\n\nOr it's highly likely that application will just open browser and not do anything next time!" 
             pyautogui.alert(msg,"Info")
             print_lg("\n"+msg)
-        ##> ------ Yang Li : MARKYangL - Feature ------
-        if use_AI and aiClient:
-            try:
-                if ai_provider.lower() == "openai":
-                    ai_close_openai_client(aiClient)
-                elif ai_provider.lower() == "deepseek":
-                    ai_close_openai_client(aiClient)
-                elif ai_provider.lower() == "gemini":
-                    pass # Gemini client does not need to be closed
-                print_lg(f"Closed {ai_provider} AI client.")
-            except Exception as e:
-                print_lg("Failed to close AI client:", e)
-        ##<
+        ##> ------ Yang Li : MARKYangL - Feature (DISABLED) ------
+        # AI CLIENT CLOSING DISABLED
+        # if use_AI and aiClient:
+        #     try:
+        #         if ai_provider.lower() == "openai":
+        #             ai_close_openai_client(aiClient)
+        #         elif ai_provider.lower() == "deepseek":
+        #             ai_close_openai_client(aiClient)
+        #         elif ai_provider.lower() == "gemini":
+        #             pass # Gemini client does not need to be closed
+        #         print_lg(f"Closed {ai_provider} AI client.")
+        #     except Exception as e:
+        #         print_lg("Failed to close AI client:", e)
+        #     ##<
         try:
             if driver:
                 driver.quit()
